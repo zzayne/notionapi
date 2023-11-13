@@ -2,7 +2,7 @@ package notionapi_test
 
 import (
 	"encoding/json"
-	"github.com/jomei/notionapi"
+	"github.com/zzayne/notionapi"
 	"reflect"
 	"testing"
 )
