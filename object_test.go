@@ -2,10 +2,9 @@ package notionapi_test
 
 import (
 	"encoding/json"
+	"github.com/jomei/notionapi"
 	"reflect"
 	"testing"
-
-	"github.com/jomei/notionapi"
 )
 
 func TestDate(t *testing.T) {
@@ -34,6 +33,7 @@ func TestDate(t *testing.T) {
 			}
 		})
 	})
+
 }
 
 func TestColor_MarshalText(t *testing.T) {

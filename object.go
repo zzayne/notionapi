@@ -1,6 +1,7 @@
 package notionapi
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 )
@@ -115,12 +116,22 @@ func (c Cursor) String() string {
 	return string(c)
 }
 
-type Date time.Time
-
-func (d *Date) String() string {
-	return time.Time(*d).Format(time.RFC3339)
+type Date struct {
+	time.Time
+	Layout string
 }
 
+func (d *Date) String() string {
+	if d.Layout == "" {
+		d.Layout = time.RFC3339
+
+	}
+	str := d.Time.Format(d.Layout)
+	return str
+}
+func (d Date) MarshalJSON() ([]byte, error) {
+	return json.Marshal(d.String())
+}
 func (d Date) MarshalText() ([]byte, error) {
 	return []byte(d.String()), nil
 }
@@ -142,7 +153,27 @@ func (d *Date) UnmarshalText(data []byte) error {
 		}
 	}
 
-	*d = Date(t)
+	*d = Date{
+		Time: t,
+	}
+	return nil
+}
+
+func (d *Date) UnmarshalJSON(data []byte) error {
+	var s string
+	if err := json.Unmarshal(data, &s); err != nil {
+		return err
+	}
+	t, err := time.Parse(time.RFC3339, s)
+	d.Layout = time.RFC3339
+	if err != nil {
+		t, err = time.Parse(time.DateOnly, s)
+		if err != nil {
+			return err
+		}
+		d.Layout = time.DateOnly
+	}
+	d.Time = t
 	return nil
 }
 

@@ -349,7 +349,7 @@ func TestPageCreateRequest_MarshallJSON(t *testing.T) {
 		return
 	}
 
-	dateObj := notionapi.Date(timeObj)
+	dateObj := notionapi.Date{Time: timeObj}
 	tests := []struct {
 		name    string
 		req     *notionapi.PageCreateRequest

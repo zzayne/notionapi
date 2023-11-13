@@ -455,7 +455,7 @@ func TestDatabaseQueryRequest_MarshalJSON(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	dateObj := notionapi.Date(timeObj)
+	dateObj := notionapi.Date{Time: timeObj}
 	tests := []struct {
 		name    string
 		req     *notionapi.DatabaseQueryRequest
